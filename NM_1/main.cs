@@ -13,12 +13,10 @@ namespace NM_1
             IO helper = new IO();
             int n = helper.readSize("n.txt", 0);
             int k = helper.readSize("n.txt", 1);
-            double[] di = helper.readFile("di.txt", n);
-            double[] au = helper.readFile("au.txt", n*k);
-            double[] ad = helper.readFile("ad.txt", n*k);
+            double[] line = helper.readFile("line.txt", n * (2*k +1));
             double[] v = helper.readFile("v.txt", n);
             mult M = new mult();
-            double[] result = M.multiple(di, au, ad, v, n, k);
+            double[] result = M.multiple(line, v, n, k);
             helper.writeResult(result, n);
         }
     }

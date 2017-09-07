@@ -9,58 +9,45 @@ t = 0
 Mode = [4, 3, 2, 1]
 Mode = Mode[q]
 
-di = list()
-v = list()
-ad = list()
-au = list()
-
+line= list()
 m = 2*k+1
 n = round((k+1)/Mode)*10
+v = list()
 
-# Магия - не трогать!
-for p in range(0, k, 1):
-    ad.append(list())
-    au.append(list())
-    for i in range(0, k-t, 1):
-        ad[p].append(0)
-        au[p].append(0)
-    for j in range(0, t, 1):
-        ad[p].append(1)
-        au[p].append(1)
-
-    t=t+1
-
-for i in range(0, n, 1):
-    di.append(1)
-
-for i in range(0, n, 1):
+for i in range(n):
     v.append(1)
 
-for j in range(k, n, 1):
-    ad.append(list())
-    au.append(list())
-    for i in range(0, k, 1):
-        ad[j].append(1)
-        au[j].append(1)
+for i in range( k ):
+    line.append(list())
+    for j in range(k-i):
+        line[i].append(0)
+for i in range(k):
+    for j in range(i+1+k):
+        line[i].append(1)
+
+for i in range( n - 2 * k ):
+    line.append(list())
+    for j in range(m):
+        line[len(line) - 1].append(1)
+
+
+for i in range( k ):
+    line.append(list())
+    for j in range(m-i-1):
+        line[len(line)-1].append(1)
+    for j in range(i+1):
+        line[len(line)-1].append(0)
 
 f1 = open('../n.txt',mode='w')
-f2 = open('../di.txt',mode='w')
-f3 = open('../ad.txt',mode='w')
-f4 = open('../au.txt',mode='w')
+f2 = open('../line.txt',mode='w')
 f5 = open('../v.txt',mode='w')
 
 f1.write(str(n)+ "\n" + str(k))
-for i in range(0, len(di), 1):
-    f2.write(str(di[i]))
-    f2.write('\n')
+for i in range(0, len(line), 1):
+    for j in range(m):
+        f2.write(str(line[i][j]))
+        f2.write('\n')
 
-for i in range(0, len(ad), 1):
-    for j in range(0, k, 1):
-        f3.write(str(ad[i][j]) + "\n")
-
-for i in range(0, len(au),1):
-    for j in range(0, k, 1):
-        f4.write(str(au[i][j]) + "\n")
 
 for i in range(0, len(v),1):
    f5.write(str(v[i]))
