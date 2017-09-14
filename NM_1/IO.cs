@@ -1,50 +1,65 @@
-﻿using System.IO;
-using System.Collections;
-using System;
+﻿using System;
+using System.IO;
+using Real = System.Double;
 
 namespace NM_1
 {
     class IO
     {
-        public double[] readFile(string fileName, int n)
+        string path;
+
+        public IO(string path)
         {
-            FileStream file = new FileStream("../../" + fileName, FileMode.Open);
-            StreamReader reader = new StreamReader(file);
-            double[] input = new double[n];
-
-            for (int i = 0; i < n; i++)
-            {
-                input[i] = System.Convert.ToDouble(reader.ReadLine());
-            }
-
-            reader.Close();
-            return input;
+            this.path = path;
         }
 
-        public int readSize(string fileName, int n)
+        public int InputNum(string fileName)
         {
-            int Result;
-            FileStream file = new FileStream("../../" + fileName, FileMode.Open);
-            StreamReader reader = new StreamReader(file);
-
-            Result = System.Convert.ToInt32(reader.ReadToEnd().Split('\n')[n]);
-
-            reader.Close();
-            return Result;
+            Console.WriteLine("Reading from {0} started...", fileName);
+            FileStream file = new FileStream(path + fileName, FileMode.Open);
+            StreamReader streamReader = new StreamReader(file);
+            int num = Convert.ToInt32(streamReader.ReadLine());
+            streamReader.Close();
+            Console.WriteLine("Reading complete!");
+            return num;
         }
 
-        public void writeResult(double[] result, int n)
+        public Real[] InputFile(string fileName, int size)
         {
-            FileStream file = new FileStream("../../out.txt", FileMode.Create);
-            StreamWriter writer = new StreamWriter(file);
+            Console.WriteLine("Reading from {0} started...", fileName);
+            FileStream file = new FileStream(path + fileName, FileMode.Open);
+            StreamReader streamReader = new StreamReader(file);
+            Real[] data = new Real[size];
+            for (int i = 0; i < size; i++)
+                data[i] = Convert.ToDouble(streamReader.ReadLine());
+            streamReader.Close();
+            Console.WriteLine("Reading complete!");
+            return data;
+        }
 
-            writer.Write("Result is: ");
+        public Real[,] InputFile(string fileName, int n, int k)
+        {
+            Console.WriteLine("Reading from {0} started...", fileName);
+            FileStream file = new FileStream(path + fileName, FileMode.Open);
+            StreamReader streamReader = new StreamReader(file);
+            Real[,] data = new Real[n, k];
             for (int i = 0; i < n; i++)
-            {
-                writer.Write(result[i] + " ");
-            }
-            
-            writer.Close();
+                for (int j = 0; j < k; j++)
+                    data[i, j] = Convert.ToDouble(streamReader.ReadLine());
+            streamReader.Close();
+            Console.WriteLine("Reading complete!");
+            return data;
+        }
+
+        public void OutputFile(string fileName, Real[] data)
+        {
+            Console.WriteLine("\n\\\\Saving the file with the result.");
+            FileStream file = new FileStream(path + fileName, FileMode.Create);
+            StreamWriter streamWriter = new StreamWriter(file);
+            for (int i = 0; i < data.Length; i++)
+                streamWriter.Write(data[i] + " ");
+            streamWriter.Close();
+            Console.WriteLine("Reading complete! File saved in this path:  " + path + fileName);
         }
     }
 }
