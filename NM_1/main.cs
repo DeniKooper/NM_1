@@ -20,16 +20,36 @@ namespace NM_1
             v = IO.InputFile("v.txt", n);
             result = new Real[n];
 
-            //lCalc(di, line, v, n, k);
-
-            //IO.OutputFile("out.txt", multipleN(di, line, v, n, k, result));
+            LCalc(di, line, v, n, k);
             YCalc(di, line, v, n, k);
             XCalc(di, line, v, n, k);
 
             Console.ReadKey();
         }
 
-
+        static void LCalc(Real[] di, Real[,] line, Real[] v, int n, int k)
+        {
+            double sum = 0, diSum = 0;
+            int q = 0;
+            int[] R = new int[n];
+            R[0] = k;
+            for (int i = 1; i < k; i++)
+                R[i] = R[i - 1] - 1;
+            for (int i = 0; i < n; i++)
+            {
+                if (i > k) q++;
+                for (int j = R[i]; j < k; j++)
+                {
+                    for (int t = 0; t < j - R[i]; t++)
+                        sum += line[i, R[i] + t] * line[j - R[i]+q, R[j - R[i]] + t];
+                    line[i, j] = (line[i, j] - sum) / di[j - R[i] + q];
+                    sum = 0;
+                    diSum += line[i, j] * line[i, j];
+                }
+                di[i] = Math.Sqrt(di[i] - diSum);
+                diSum = 0;
+            }
+        }
         static void YCalc(Real[] di, Real[,] line, Real[] v, int n, int k)
         {
             double sum = 0;
